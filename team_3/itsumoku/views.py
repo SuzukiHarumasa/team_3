@@ -1,14 +1,28 @@
 from django.shortcuts import render
-from app.getmov import exec_getmov
-# Create your views here.
+from itsumoku.app.getmov import exec_getmov
+import datetime
 def index(request):
-    return render(request, 'index.html')
+        return render(request, 'index.html')
 
-def form(request):
-    return render(request,'form.html')
 
 def result(request):
-    # content =exec_getmov(request.POST['during'],request.POST['keyword'])
+    if request.method == 'POST':
+        
+        during = request.POST['during']
+        during =int(during)*60
+        keyword = request.POST['keyword']
+        
+        context = {
+            'df_video_list':  exec_getmov(during, keyword)
+        }
+        return render(request, 'result.html', context)
 
-    return render(request,'result.html')
+    return render(request,'index.html')
+    
+
+
+        
+
+
+
 
